@@ -11,7 +11,7 @@ composer require nishadil/uuid
 # How to use
 
 
-## Generate Secret Code
+### Generate Secret Code
 To create new secret code for user, call static mathod Mfa::createSecretCode()
 
 ```php
@@ -29,7 +29,7 @@ output:
 F6ZHAZMKSLY7ISFO
 ```
 
-## Generate long Secret Code
+### Generate long Secret Code
 
 By default, we defined secret code length to *16* char long. You can change it if you need to generate long code. Accepted values should be in integer and within range of 16 to 128.
 
