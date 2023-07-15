@@ -5,9 +5,14 @@ A php library for Multi-factor authentication (MFA). MFA also known as 2FA or tw
 ### What is TOTP
 The TOTP algorithm follows an open standard documented in [RFC 6238][RFC6238]. The inputs include a shared secret key and the system time.
 
+### What is HOTP
+HOTP stands for HMAC-based One-Time Password and is the original standard that TOTP was based on. Both methods use a secret key as one of the inputs, but while TOTP uses the system time for the other input, HOTP uses a counter, which increments with each new validation. With HOTP, both parties increment the counter and use that to compute the one-time password.
+The HOTP standard is documented in [RFC 4226][RFC4226].
+
+
 
 # Installation
-This library can be installed using [Composer]. To install, please use following command
+This library can be installed using [Composer][GETCOMPOSER]. To install, please use following command
 ```bash
 composer require nishadil/uuid
 ```
@@ -83,3 +88,5 @@ This library is licensed for use under the MIT License (MIT)
 
 
 [RFC6238]: <https://datatracker.ietf.org/doc/html/rfc6238>
+[RFC4226]: <https://datatracker.ietf.org/doc/html/rfc4226>
+[GETCOMPOSER]: <https://getcomposer.org/>
