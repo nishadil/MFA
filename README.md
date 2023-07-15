@@ -2,8 +2,12 @@
 A php library for Multi-factor authentication (MFA). MFA also known as 2FA or two factor authentication.
 
 
+### What is TOTP
+The TOTP algorithm follows an open standard documented in [RFC 6238][RFC6238]. The inputs include a shared secret key and the system time.
+
+
 # Installation
-This library can be installed using `Composer`. To install, please use following command
+This library can be installed using [Composer]. To install, please use following command
 ```bash
 composer require nishadil/uuid
 ```
@@ -74,3 +78,8 @@ output:
 
 # License
 This library is licensed for use under the MIT License (MIT)
+
+
+
+
+[RFC6238]: <https://datatracker.ietf.org/doc/html/rfc6238>
