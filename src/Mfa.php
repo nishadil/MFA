@@ -13,7 +13,7 @@ use function function_exists;
 use function mcrypt_create_iv;
 use function openssl_random_pseudo_bytes;
 
-class MFA{
+class Mfa{
     
 
     public static int $mfa_secretCodeLength = 16;
@@ -31,7 +31,7 @@ class MFA{
 
         $createRandomBytes = self::createRandomBytes();
 
-        if( $createRandomBytes === null || !is_array($createRandomBytes) || sizeof($createRandomBytes) < 1 ):
+        if( $createRandomBytes === null ):
             throw new Exception("NIshadil\MFA : Failed to create random bytes");
         endif;
 
@@ -68,7 +68,7 @@ class MFA{
 
 
 
-    private static function createRandomBytes() : ?array {
+    private static function createRandomBytes() : ?string {
         
         $randomBytes = null;
 
