@@ -1,0 +1,21 @@
+{
+    "name": "nishadil/mfa",
+    "description": "A php library for Multi-factor authentication (MFA).",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Nishadil\\Mfa\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Nishadil.dev",
+            "email": "opensource@nishadil.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.4"
+    }
+}
