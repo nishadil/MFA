@@ -107,7 +107,7 @@ class Mfa{
 
         self::$mfa_secretCodeLength = $secretCodeLength;
 
-        return self::class;
+        return new self;
     }
 
 
