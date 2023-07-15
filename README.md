@@ -51,7 +51,7 @@ output:
 ```
 
 
-### get TOTP from secret code
+### Get TOTP from secret code
 
 TOTP stands for Time-based One-Time Passwords and is a common form of Multi-factor authentication (MFA). To generate your TOTP based on your secret key and time you can call public static mathod `Mfa::getTOTP( string $secretCode );`
 
