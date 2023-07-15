@@ -8,5 +8,24 @@ This library can be installed using `Composer`. To install, please use following
 composer require nishadil/uuid
 ```
 
+# How to use
+
+To create new secret code for user, call static mathod Mfa::createSecretCode()
+
+```php
+<?php
+
+use Nishadil\Mfa\Mfa;
+
+echo Mfa::createSecretCode();
+
+?>
+```
+
+output:
+```text
+F6ZHAZMKSLY7ISFO
+```
+
 # License
 This library is licensed for use under the MIT License (MIT)
