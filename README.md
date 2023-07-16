@@ -2,8 +2,8 @@
 A php library for Multi-factor authentication (MFA). MFA also known as 2FA or two factor authentication.
 
 <div align="center">
-![Static Badge](https://img.shields.io/badge/version-1.0.1-008feb.svg)
-![Static Badge](https://img.shields.io/badge/❤-Nidhadil-008feb)
+    <img src="https://img.shields.io/badge/version-1.0.1-008feb.svg">
+    <img src="https://img.shields.io/badge/❤-Nidhadil-008feb.svg">
 </div>
 
 ### What is TOTP
