@@ -4,7 +4,7 @@ A php library for Multi-factor authentication (MFA). MFA also known as 2FA or tw
 <div align="center">
 ![Static Badge](https://img.shields.io/badge/version-1.0.1-008feb.svg)
 ![Static Badge](https://img.shields.io/badge/❤-Nidhadil-008feb)
-</>
+</div>
 
 ### What is TOTP
 The TOTP algorithm follows an open standard documented in [RFC 6238][RFC6238]. The inputs include a shared secret key and the system time.
