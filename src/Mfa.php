@@ -1,28 +1,23 @@
 <?php
-
 namespace Nishadil\MFA;
 
-use Throwable;
 use Exception;
+use Throwable;
 
 use function chr;
 use function ord;
-use function pow;
 use function floor;
 use function time;
 use function pack;
-use function sizeof;
 use function substr;
 use function unpack;
 use function str_pad;
-use function is_array;
 use function hash_hmac;
 use function array_flip;
 use function substr_count;
 use function random_bytes;
 use function function_exists;
 use function mcrypt_create_iv;
-use function openssl_random_pseudo_bytes;
 
 class Mfa{
     
@@ -31,11 +26,6 @@ class Mfa{
     public static int $mfa_secretCodeLength = 16;
     public static int $mfa_secretCodeTime = 30;
     public static array $mfa_decodeSecretCodeValidValues = array(6, 4, 3, 1, 0);
-    
-    
-    function __construct(){
-    }
-
 
 
 
@@ -59,40 +49,45 @@ class Mfa{
     }
 
 
-
-    public static function getTOTP( string $secretCode ) : string {
-
-        $mfa_time = floor( time() / self::$mfa_secretCodeTime);
-
-        $secretCode_decoded = self::decodeSecretCode( $secretCode );
-
-        if( $secretCode_decoded === null ):
-            return '';
-        endif;
-
-        // Pack time into binary string
-        $mfa_time = chr(0).chr(0).chr(0).chr(0).pack('N*', $mfa_time);
-        
-        // Hash it with users decoded secret code
-        $hm = hash_hmac('SHA1', $mfa_time, $secretCode_decoded, true);
-        
-        // Use last chr of result as offset
-        $offset = ord(substr($hm, -1)) & 0x0F;
-        
-        // grab 4 bytes of the result
-        $hashpart = substr($hm, $offset, 4);
-
-        // Unpak binary value
-        $value = unpack('N', $hashpart);
-        
-        // Only 32 bits
-        $value = $value[1] & 0x7FFFFFFF;
-
-        $modulo = pow(10, self::$mfa_TOTPLength);
-
-        return str_pad($value % $modulo, self::$mfa_TOTPLength, '0', STR_PAD_LEFT);
-
+    public static function getTOTP(string $secretCode): string {
+        return self::generateOTP($secretCode, floor(time() / self::$mfa_secretCodeTime));
     }
+    
+    public static function getHOTP(string $secretCode, int $counter): string {
+        return self::generateOTP($secretCode, $counter);
+    }
+    
+    private static function generateOTP(string $secretCode, int $value): string {
+        $secretCode_decoded = self::decodeSecretCode($secretCode);
+    
+        if ($secretCode_decoded === null) {
+            return '';
+        }
+    
+        $counterBytes = pack('N*', 0, $value);
+        $hm = hash_hmac('SHA1', $counterBytes, $secretCode_decoded, true);
+        $offset = ord(substr($hm, -1)) & 0x0F;
+        $hashpart = substr($hm, $offset, 4);
+        $value = unpack('N', $hashpart)[1] & 0x7FFFFFFF;
+    
+        return str_pad($value % (10 ** self::$mfa_TOTPLength), self::$mfa_TOTPLength, '0', STR_PAD_LEFT);
+    }
+
+
+
+
+
+    public static function validateTOTP(string $secretCode, string $userProvided_otp): bool {
+        $generatedCode = self::getTOTP($secretCode);
+        return hash_equals($generatedCode, $userProvided_otp);
+    }
+    
+    public static function validateHOTP(string $secretCode, string $userProvided_otp, int $counter): bool {
+        $generatedCode = self::getHOTP($secretCode, $counter);
+        return hash_equals($generatedCode, $userProvided_otp);
+    }
+    
+    
 
 
 
@@ -113,19 +108,17 @@ class Mfa{
 
 
     private static function createRandomBytes() : ?string {
-        
-        $randomBytes = null;
-
-        if( function_exists('random_bytes') ):
-            $randomBytes = random_bytes(self::$mfa_secretCodeLength);
-        elseif( function_exists('mcrypt_create_iv') ):
-            $randomBytes = mcrypt_create_iv(self::$mfa_secretCodeLength, MCRYPT_DEV_URANDOM);
-        elseif( function_exists('openssl_random_pseudo_bytes') ):
-            $randomBytes = openssl_random_pseudo_bytes(self::$mfa_secretCodeLength, $orpb);
-            $randomBytes = !$orpb ? null : $randomBytes;
-        endif;
-
-        return $randomBytes;
+        try {
+            if( function_exists('random_bytes') ):
+                return random_bytes(self::$mfa_secretCodeLength);
+            elseif( function_exists('mcrypt_create_iv') ):
+                return mcrypt_create_iv(self::$mfa_secretCodeLength, MCRYPT_DEV_URANDOM);
+            else:
+                return null;
+            endif;
+        } catch (Throwable $th) {
+            return null;
+        }
     }
 
 
@@ -161,7 +154,7 @@ class Mfa{
             $x = '';
             
             if (!in_array($secretCode[$i], $base32LookupTable)):
-                return false;
+                return null;
             endif;
 
             for ($n = 0; $n < 8; ++$n):
