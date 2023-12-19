@@ -87,6 +87,80 @@ output:
 557480
 ```
 
+
+### Validate TOTP
+
+To validate your TOTP based on your secret key and time you can call public static mathod `Mfa::validateTOTP(string $secretCode, string $userProvided_otp);`
+
+
+```php
+<?php
+
+use Nishadil\Mfa\Mfa;
+
+$secretCode = "3TYBUTVEXBOBXYTJ6L7NZ4HC7QJWAKMY";
+$userProvided_otp = "440791";
+
+echo Mfa::validateTOTP($secretCode, $userProvided_otp);
+
+?>
+```
+
+output:
+```text
+true
+```
+
+
+
+### Get HOTP from secret code
+
+HOTP stands for HMAC-based One-Time Password and is the original standard that TOTP was based on. To generate your HOTP based on your secret key and counter value to call public static mathod `Mfa::getHOTP( string $secretCode, int $counter );`
+
+
+```php
+<?php
+
+use Nishadil\Mfa\Mfa;
+
+$secretCode = "3TYBUTVEXBOBXYTJ6L7NZ4HC7QJWAKMY";
+$counter = 100;
+echo Mfa::getHOTP($secretCode,$counter);
+
+?>
+```
+
+output:
+```text
+440791
+```
+
+
+### Validate HOTP
+
+To validate your HOTP based on your secret key and counter value call public static mathod `Mfa::validateHOTP(string $secretCode, string $userProvided_otp, int $counter);`
+
+
+```php
+<?php
+
+use Nishadil\Mfa\Mfa;
+
+$secretCode = "3TYBUTVEXBOBXYTJ6L7NZ4HC7QJWAKMY";
+$counter = 100;
+$userProvided_otp = "440791";
+
+echo Mfa::validateHOTP($secretCode, $userProvided_otp, $counter);
+
+?>
+```
+
+output:
+```text
+true
+```
+
+
 # License
 This library is licensed for use under the MIT License (MIT)
 
