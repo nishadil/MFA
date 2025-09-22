@@ -2,14 +2,14 @@
 A php library for Multi-factor authentication (MFA). MFA also known as 2FA or two factor authentication.
 
 <div align="center">
-    <a href="https://github.com/nishadil/MFA/releases/tag/v1.0.1">
-        <img src="https://img.shields.io/badge/version-1.0.1-008feb.svg">
-        <img src="https://img.shields.io/badge/❤-Nidhadil-008feb.svg">
+    <a href="https://github.com/nishadil/MFA/releases/tag/v1.1.0">
+        <img src="https://img.shields.io/badge/version-1.1.0-008feb.svg">
+        <img src="https://img.shields.io/badge/❤-Nishadil-008feb.svg">
     </a>
 </div>
 
 ### What is TOTP
-The TOTP algorithm follows an open standard documented in [RFC 6238][RFC6238]. The inputs include a shared secret key and the system time.
+TOTP, which stands for Time-based One-Time Password, is a computer algorithm that generates a temporary, unique password for authentication. It's widely used in two-factor authentication (2FA) systems to add an extra layer of security beyond a traditional password. The TOTP algorithm follows an open standard documented in [RFC 6238][RFC6238]. The inputs include a shared secret key and the system time.
 
 ### What is HOTP
 HOTP stands for HMAC-based One-Time Password and is the original standard that TOTP was based on. Both methods use a secret key as one of the inputs, but while TOTP uses the system time for the other input, HOTP uses a counter, which increments with each new validation. With HOTP, both parties increment the counter and use that to compute the one-time password.
@@ -20,7 +20,7 @@ The HOTP standard is documented in [RFC 4226][RFC4226].
 # Installation
 This library can be installed using [Composer][GETCOMPOSER]. To install, please use following command
 ```bash
-composer require nishadil/uuid
+composer require nishadil/mfa
 ```
 
 # How to use
@@ -160,6 +160,54 @@ output:
 true
 ```
 
+
+### Create otpauth URI for Authenticator Apps
+Many authenticator apps, such as Google Authenticator, Authy, and others, support scanning a QR code to quickly set up a new account. The QR code typically contains a special URI, called an `otpauth` URI, which holds all the necessary information for the app to generate one-time passwords.
+
+The `otpauth` URI follows a specific format:
+```text
+otpauth://[type]/[label]?[parameters]
+```
+
+__Generate otpauth URI for TOTP Based method__
+
+```php
+<?php
+
+use Nishadil\Mfa\Mfa;
+
+$secretCode = "3TYBUTVEXBOBXYTJ6L7NZ4HC7QJWAKMY";
+
+echo Mfa::generateOtpAuthUri($secretCode, "user@example.com", "NishadilApp");
+
+?>
+```
+
+output:
+```text
+otpauth://totp/NishadilApp:user%40example.com?secret=3TYBUTVEXBOBXYTJ6L7NZ4HC7QJWAKMY&issuer=NishadilApp&digits=6&algorithm=SHA1&period=30
+```
+
+
+__Generate otpauth URI for HOTP Based method__
+
+```php
+<?php
+
+use Nishadil\Mfa\Mfa;
+
+$secretCode = "3TYBUTVEXBOBXYTJ6L7NZ4HC7QJWAKMY";
+$counter = 100;
+
+echo Mfa::generateOtpAuthUri($secretCode, "user@example.com", "NishadilApp", "hotp", $counter);
+
+?>
+```
+
+output:
+```text
+otpauth://hotp/NishadilApp:user%40example.com?secret=3TYBUTVEXBOBXYTJ6L7NZ4HC7QJWAKMY&issuer=NishadilApp&digits=6&algorithm=SHA1&counter=100
+```
 
 # License
 This library is licensed for use under the MIT License (MIT)
