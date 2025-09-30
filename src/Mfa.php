@@ -141,11 +141,11 @@ class Mfa
     }
 
 
-    public static function generateBackupCodes(int $count = 5, int $length = 10): array
+    public static function generateBackupCodes(int $count = 10, int $length = 8): array
     {
         $codes = [];
         for ($i = 0; $i < $count; $i++) {
-            $codes[] = bin2hex(random_bytes((int) ($length / 2)));
+            $codes[] = bin2hex(random_bytes((int) ($length / 2)))."-".bin2hex(random_bytes((int) ($length / 2)));
         }
         return $codes;
     }

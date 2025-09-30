@@ -209,6 +209,41 @@ output:
 otpauth://hotp/NishadilApp:user%40example.com?secret=3TYBUTVEXBOBXYTJ6L7NZ4HC7QJWAKMY&issuer=NishadilApp&digits=6&algorithm=SHA1&counter=100
 ```
 
+
+
+### Generate Backup Codes
+
+To generate backup codes, call public static mathod `Mfa::generateBackupCodes(int $count = 10, int $length = 8);`
+
+
+```php
+<?php
+
+use Nishadil\Mfa\Mfa;
+
+echo Mfa::generateBackupCodes();
+
+?>
+```
+
+output:
+```text
+array[
+    'QS5HT8FK-2D7LTZGM',
+    'S7DS93ON-U8RMR0TY',
+    '965F5WEP-KP16XBME',
+    'G4E6IQ05-SUFEWHN0',
+    'SYS907DN-0JN060EE',
+    'IYGGRAXO-739H8TWR',
+    'PA79RE4J-4IZ83DB2',
+    'YH9YDR3Z-N51CGR4E',
+    'V36CMIRZ-1WNEZVN6',
+    'O3HU4FBC-V1OPWXZ8'
+]
+```
+
+
+
 # License
 This library is licensed for use under the MIT License (MIT)
 
