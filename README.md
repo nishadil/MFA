@@ -221,7 +221,7 @@ To generate backup codes, call public static mathod `Mfa::generateBackupCodes(in
 
 use Nishadil\Mfa\Mfa;
 
-$backupCodes = $ Mfa::generateBackupCodes();
+$backupCodes = Mfa::generateBackupCodes();
 
 print_r($backupCodes);
 
