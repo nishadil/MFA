@@ -2,8 +2,8 @@
 A php library for Multi-factor authentication (MFA). MFA also known as 2FA or two factor authentication.
 
 <div align="center">
-    <a href="https://github.com/nishadil/MFA/releases/tag/v1.2.0">
-        <img src="https://img.shields.io/badge/version-1.2.0-008feb.svg">
+    <a href="https://github.com/nishadil/MFA/releases/tag/v1.2.1">
+        <img src="https://img.shields.io/badge/version-1.2.1-008feb.svg">
         <img src="https://img.shields.io/badge/❤-Nishadil-008feb.svg">
     </a>
 </div>
