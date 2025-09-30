@@ -34,7 +34,7 @@ $uri = Mfa::generateOtpAuthUri($secretCode, "user@example.com", "NishadilApp");
 echo "Scan this URI in Authenticator App : $uri\n";
 
 
-$backupCodes = Mfa::generateBackupCodes(5);
+$backupCodes = Mfa::generateBackupCodes();
 print_r($backupCodes);
 echo "\n\n";
 ?>
