@@ -110,6 +110,18 @@ final class MfaTest extends TestCase
         self::assertStringContainsString('counter=5', $hotpUri);
     }
 
+    public function testSetTimeStepUpdatesPeriod(): void
+    {
+        Mfa::setTimeStep(45);
+
+        $secret = 'GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ';
+        $uri = Mfa::generateOtpAuthUri($secret, 'user@example.com', 'Example', 'totp');
+
+        self::assertStringContainsString('period=45', $uri);
+
+        Mfa::setTimeStep(30);
+    }
+
     public function testInvalidInputsDoNotValidate(): void
     {
         Mfa::setDigits(6);

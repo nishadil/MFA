@@ -136,6 +136,14 @@ class Mfa
         self::$mfa_TOTPLength = $digits;
     }
 
+    public static function setTimeStep(int $timeStep = 30): void
+    {
+        if ($timeStep <= 0) {
+            $timeStep = 30;
+        }
+        self::$mfa_secretCodeTime = $timeStep;
+    }
+
     public static function setAlgorithm(string $algorithm = 'SHA1'): void
     {
         $algorithm = strtoupper($algorithm);

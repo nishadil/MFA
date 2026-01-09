@@ -2,8 +2,8 @@
 A php library for Multi-factor authentication (MFA). MFA also known as 2FA or two factor authentication.
 
 <div align="center">
-    <a href="https://github.com/nishadil/MFA/releases/tag/v1.4.0">
-        <img src="https://img.shields.io/badge/version-1.4.0-008feb.svg">
+    <a href="https://github.com/nishadil/MFA/releases/tag/v1.5.0">
+        <img src="https://img.shields.io/badge/version-1.5.0-008feb.svg">
         <img src="https://img.shields.io/badge/❤-Nishadil-008feb.svg">
     </a>
 </div>
@@ -91,7 +91,8 @@ output:
 
 ### Validate TOTP
 
-To validate your TOTP based on your secret key and time you can call public static mathod `Mfa::validateTOTP(string $secretCode, string $userProvided_otp);`
+To validate your TOTP based on your secret key and time you can call public static mathod `Mfa::validateTOTP(string $secretCode, string $userProvided_otp, int $tolerance = 1);`
+The `$tolerance` value is the number of time steps allowed before/after the current window (default `1`). Use `0` for strict expiry.
 
 
 ```php
@@ -101,8 +102,9 @@ use Nishadil\Mfa\Mfa;
 
 $secretCode = "3TYBUTVEXBOBXYTJ6L7NZ4HC7QJWAKMY";
 $userProvided_otp = "440791";
+$tolerance = 0;
 
-echo Mfa::validateTOTP($secretCode, $userProvided_otp);
+echo Mfa::validateTOTP($secretCode, $userProvided_otp, $tolerance);
 
 ?>
 ```
@@ -110,6 +112,18 @@ echo Mfa::validateTOTP($secretCode, $userProvided_otp);
 output:
 ```text
 true
+```
+
+To change the TOTP time step (default 30 seconds), call `Mfa::setTimeStep(int $seconds);` before generating or validating codes:
+
+```php
+<?php
+
+use Nishadil\Mfa\Mfa;
+
+Mfa::setTimeStep(45);
+
+?>
 ```
 
 
